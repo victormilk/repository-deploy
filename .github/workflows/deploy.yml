@@ -1,5 +1,11 @@
 name: Deploy Fake
 on:
+  workflow_call:
+    inputs:
+      enviroment:
+        description: 'Environment to deploy to'
+        required: true
+        type: string
   repository_dispatch:
     types: [ remote-deploy ]
 jobs:
@@ -7,4 +13,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Deploy in the environment
-        run: echo "Deploying to the environment ${{ github.event.client_payload.environment }}"
+        run: echo "Deploying to the environment ${{ inputs.environment || github.event.client_payload.environment }}"
